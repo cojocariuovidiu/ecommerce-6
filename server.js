@@ -19,6 +19,7 @@ mongoose.connect('mongodb://root:welcome123@ds011278.mlab.com:11278/ecommerce',f
 });
 
 //Middleware
+app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
@@ -26,22 +27,11 @@ app.use(bodyParser.urlencoded({ extended:true}));
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
-app.get('/', function(req,res){
-res.json('welcome nikhil');
-});
+var mainRoutes = require('./routes/main');
+var userRoutes = require('./routes/user');
 
-app.post('/signup', function(req,res,next){
-   var user = new User();
-   user.profile.name = req.body.name;
-   user.password = req.body.password;
-   user.email = req.body.email;
-
-   user.save(function(err){
-      if(err) return next(err);
-
-       res.json('Successfully created a new user');
-   });
-});
+app.use(mainRoutes);
+app.use(userRoutes);
 
 app.listen(3000,function(err){
     if(err) throw err;
