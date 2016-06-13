@@ -5,15 +5,18 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
+var MongoStore = require('connect-mongo/es5')(session);
+var passport = require('passport');
 
 var ejs = require('ejs');
 var engine = require('ejs-mate');
 
+var secret = require('./config/secret');
 var User = require('./models/user');
 
 var app = express();
 
-mongoose.connect('mongodb://root:welcome123@ds011278.mlab.com:11278/ecommerce',function(err){
+mongoose.connect(secret.database,function(err){
   if(err){
       console.log(err);
   } else{
@@ -31,9 +34,12 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: "NikhilHiremath@#$%"
+    secret: secret.secretKey,
+    store: new MongoStore({ url: secret.database, autoReconnect: true })
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
@@ -46,5 +52,5 @@ app.use(userRoutes);
 
 app.listen(3000,function(err){
     if(err) throw err;
-    console.log('Server is Running at port 3000');
+    console.log('Server is Running at port '+ secret.port);
 });
