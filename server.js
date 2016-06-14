@@ -1,4 +1,5 @@
 var express = require('express');
+
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -40,6 +41,11 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function (req,res,next) {
+    res.locals.user = req.user;
+    next();
+});
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
