@@ -1,0 +1,30 @@
+<% layout('layout') -%>
+
+<div class="container">
+    <div class="col-lg-6 col-md-offset-3">
+
+        <% if(message.length > 0 ){%>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span>&times;</span>
+            </button>
+            <%= message %>
+        </div>
+        <% } %>
+        <form method="post" class="form-signin">
+            <h2 class="form-signin-heading">Edit Profile</h2>
+            <div class="form-group">
+                <label for="inputName" class="sr-only">Name: </label>
+                <input type="text" name="name" id="inputName" value="<%=user.profile.name %>" class="form-control" placeholder="Name" required>
+            </div>
+            <div class="form-gEmail" class="sr-only">Address: </label>
+                <% if(user.address === "" || typeof  user.address === 'undefined' ) {%>
+                <input type="text" name="address" id="inputAddress" value="" class="form-control" placeholder="address" required autofocus>
+                <%} else { %>
+                <input type="text" name="address" id="inputAddress" value="<%=user.address %>" class="form-control" placeholder="address" required autofocus>
+                <%}%>
+            </div>
+            <button class="btn btn-primary btn-success" type="submit">Submit</button>
+        </form>
+    </div>
+</div>

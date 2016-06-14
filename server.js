@@ -56,7 +56,7 @@ var userRoutes = require('./routes/user');
 app.use(mainRoutes);
 app.use(userRoutes);
 
-app.listen(3000,function(err){
+app.listen(secret.port,function(err){
     if(err) throw err;
     console.log('Server is Running at port '+ secret.port);
 });
