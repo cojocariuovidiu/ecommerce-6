@@ -18,7 +18,6 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true
 },
    function(req, email, password, done ){
-       console.log('####email');
     User.findOne({ email: email }, function(err, user){
         if(err) return done(err);
 
